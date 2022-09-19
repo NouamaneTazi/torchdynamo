@@ -44,6 +44,8 @@ class NNModuleToString:
         torch.nn.ConvTranspose1d,
         torch.nn.GLU,
         torch.nn.LSTM,
+        torch.nn.Flatten,
+        torch.nn.AdaptiveAvgPool2d,
     ]
 
     @staticmethod
