@@ -357,7 +357,13 @@ def run_fwd_maybe_bwd(gm, args):
     from torchdynamo.testing import requires_bwd_pass
 
     gm = copy.deepcopy(gm)
-    args = clone_inputs(args)
+    new_args = clone_inputs(args)
+    # Set the requires_grad field explicitly because clone_inputs only sets
+    # requires_grad for leaf tensors.
+    for narg, arg in zip(new_args, args):
+        narg.requires_grad_(arg.requires_grad)
+    args = new_args
+
     gm.zero_grad(True)
     out = gm(*args)
     if requires_bwd_pass(out):
